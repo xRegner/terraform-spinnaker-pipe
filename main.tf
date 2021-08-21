@@ -19,8 +19,8 @@ resource "spinnaker_application" "my_app_demo" {
 
 
 resource "spinnaker_pipeline" "pipeline" {
-    application = "my-app-demo"
-    name        = "darkpipe2"
+    application = spinnaker_application.my_app_demo.name
+    name        = "darkpipe"
     pipeline    = file("pipelines/example.json")
 
 }

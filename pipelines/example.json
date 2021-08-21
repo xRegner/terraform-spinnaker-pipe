@@ -36,7 +36,7 @@
               "spec": {
                 "containers": [
                   {
-                    "image": "gcr.io/google_samples/gb-frontend:v1",
+                    "image": "gcr.io/google_samples/gb-frontend:v2",
                     "name": "frontend"
                   }
                 ]
@@ -63,7 +63,8 @@
           "namespace": "spinnaker-operator",
           "services": [
             "service svc-rollout"
-          ]
+          ],
+          "strategy": "redblack"
         }
       },
       "type": "deployManifest"
@@ -117,6 +118,5 @@
       "type": "deployManifest"
     }
   ],
-  "triggers": [],
-  "updateTs": "1629505805000"
+  "triggers": []
 }

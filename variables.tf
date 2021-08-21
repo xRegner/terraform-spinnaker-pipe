@@ -3,7 +3,7 @@
 
 
 variable "spinnaker_url" {
-  default = "http://localhost:9000"
+  default = "http://localhost"
 }
 
 
