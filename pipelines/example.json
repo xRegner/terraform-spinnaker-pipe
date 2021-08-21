@@ -1,0 +1,122 @@
+{
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "anonymous",
+  "limitConcurrent": true,
+  "stages": [
+    {
+      "account": "spinnaker",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "ReplicaSet",
+          "metadata": {
+            "annotations": {
+              "strategy.spinnaker.io/max-version-history": "2",
+              "traffic.spinnaker.io/load-balancers": "[\"service svc-rollout\"]"
+            },
+            "labels": {
+              "tier": "frontend"
+            },
+            "name": "frontend"
+          },
+          "spec": {
+            "replicas": 3,
+            "selector": {
+              "matchLabels": {
+                "tier": "frontend"
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "tier": "frontend"
+                }
+              },
+              "spec": {
+                "containers": [
+                  {
+                    "image": "gcr.io/google_samples/gb-frontend:v1",
+                    "name": "frontend"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "moniker": {
+        "app": "my-app-demo"
+      },
+      "name": "rset",
+      "namespaceOverride": "spinnaker-operator",
+      "refId": "1",
+      "requisiteStageRefIds": [
+        "2"
+      ],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": true,
+        "options": {
+          "enableTraffic": true,
+          "namespace": "spinnaker-operator",
+          "services": [
+            "service svc-rollout"
+          ]
+        }
+      },
+      "type": "deployManifest"
+    },
+    {
+      "account": "spinnaker",
+      "cloudProvider": "kubernetes",
+      "manifests": [
+        {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+            "labels": {
+              "app": "dark-spin-rollout"
+            },
+            "name": "svc-rollout",
+            "namespace": "spinnaker-operator"
+          },
+          "spec": {
+            "ports": [
+              {
+                "port": 8090,
+                "protocol": "TCP",
+                "targetPort": 8090
+              }
+            ],
+            "selector": {
+              "app": "dark-spin-rollout"
+            }
+          },
+          "status": {
+            "loadBalancer": {}
+          }
+        }
+      ],
+      "moniker": {
+        "app": "my-app-demo"
+      },
+      "name": "svc",
+      "refId": "2",
+      "requisiteStageRefIds": [],
+      "skipExpressionEvaluation": false,
+      "source": "text",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    }
+  ],
+  "triggers": [],
+  "updateTs": "1629505805000"
+}

@@ -1,0 +1,10 @@
+# To leverage this template, please make a copy named spin_config (no extension) and verify the spinnaker_cli_config terraform
+# variable is pointing in the expected location.
+
+gate:
+    endpoint: "http://localhost:8084/"
+auth:
+    enabled: false
+    basic:
+        username: "CHANGEUSERNAME"
+        password: "CHANGEPASSWORD"
